@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.0;
 
-contract Bookshop {
-    address public bookshopOwner;
+contract Bookstore {
+    address public bookstoreOwner;
     uint256 public subscriptionFee;
     uint256 public noOfBooks;
     mapping(address => bool) hasSubscribed;
@@ -18,17 +18,17 @@ contract Bookshop {
     event SubscriptionPurchase(address indexed subscriber);
 
     modifier onlyOwner() {
-        require(msg.sender == bookshopOwner);
+        require(msg.sender == bookstoreOwner);
         _;
     }
 
     constructor(uint256 _subscriptionFee) {
-        bookshopOwner = msg.sender;
+        bookstoreOwner = msg.sender;
         subscriptionFee = _subscriptionFee;
     }
 
     function subscribe() external payable {
-        require(msg.sender != bookshopOwner, "You are the bookshop owner.");
+        require(msg.sender != bookstoreOwner, "You are the bookshop owner.");
         require(
             !hasSubscribed[msg.sender],
             "This account has already subscribed."
@@ -54,7 +54,7 @@ contract Bookshop {
         if (
             books[_bookId].premium &&
             !hasSubscribed[msg.sender] &&
-            msg.sender != bookshopOwner
+            msg.sender != bookstoreOwner
         ) {
             // If book is premium, account is not the bookshop owner and has not subscribed
             return false;
@@ -63,6 +63,6 @@ contract Bookshop {
     }
 
     function withdraw() external onlyOwner {
-        payable(bookshopOwner).transfer(address(this).balance);
+        payable(bookstoreOwner).transfer(address(this).balance);
     }
 }
