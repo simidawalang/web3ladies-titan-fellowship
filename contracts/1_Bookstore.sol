@@ -1,4 +1,9 @@
+// Creata a smart contract that has free and premuim plan.
+// It should be a Book store where i can access some books
+// if only i have paid
+
 // SPDX-License-Identifier: Unlicensed
+
 pragma solidity ^0.8.0;
 
 contract Bookstore {
@@ -39,7 +44,7 @@ contract Bookstore {
         emit SubscriptionPurchase(msg.sender);
     }
 
-    function addBook(string memory _title, bool _premium) external onlyOwner {
+    function addBook(string calldata _title, bool _premium) external onlyOwner {
         Book storage book = books[noOfBooks + 1]; // So the books are not zero indexed
         book.id = noOfBooks + 1;
         book.title = _title;
